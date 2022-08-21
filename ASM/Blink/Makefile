@@ -15,4 +15,4 @@ edit: $(TARGET).asm
 
 .PHONY: clean
 clean:
-	-rm -f $(TARGET).hex $(TARGET).eep.hex $(TARGET).cof $(TARGET).obj
+	-rm -f $(TARGET).hex $(TARGET).eep.hex $(TARGET).cof $(TARGET).obj *~
