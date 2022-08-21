@@ -1,43 +1,10 @@
-.include "tn85def.inc"
+.include "../avr-def/tn85def.inc"
+.include "../macro.inc"
 
 .def temp = R16
-.def const1 = R1
-.def LED = R2
-.def flag = R3
-.equ f1ms=1<<0
-.macro outp
-	ldi temp, @1
-	out @0, temp
-.endmacro
-.macro ldix
-	ldi temp, @1
-	mov @0, temp
-.endmacro
-.macro andix
-	ldi temp, @1
-	and @0, temp
-.endmacro
-.macro orix
-	ldi temp, @1
-	or @0, temp
-.endmacro
-.macro eorix
-	ldi temp, @1
-	eor @0, temp
-.endmacro
-.macro cpix
-	ldi temp, @1
-	cp @0, temp
-.endmacro
-.macro cpi16x        ; usage: cpi16x registerH, registerL, 1000
-	ldi temp, LOW( @2 )
-	cp @1, temp
-	ldi temp, HIGH( @2 )
-	cpc @0, temp
-.endmacro
-.macro inccounter1000
-	adiw R26, 1    ; inc R27:R26
-.endmacro
+.def flag = R17
+.def LED  = R18
+.equ f1ms = 0
 
 .ORG 0
 rjmp RESET              ;各種リセット
@@ -68,17 +35,17 @@ RESET:             ;各種リセット
 	outp OCR0A, 8000000/64/1000-1
 	outp TCNT0, 0
 	sei
-MAIN:                ;;; 1[ms] wait
-	cpix flag, f1ms  ;;; 1[ms] wait
+MAIN:
+	sbrs flag, f1ms  ;;; 1[ms] wait
 	brne MAIN        ;;; 1[ms] wait
-	andix flag, ~f1ms       ;;; flag reset
+	cbr flag, 1<<f1ms  ;;; flag reset
 	inccounter1000         ;;; R27:R26 increment
-	cpi16x R27, R26, 1000  ;;; 1000[ms] check?
-	brne MAIN9             ;;; if not 1000[ms] goto MAIN9
-	clr R27            ;;; if 1000[ms]  clear R27
-	clr R26            ;;; if 1000[ms]  clear R26
-	eorix LED, 1<<PB0  ;;; if 1000[ms]  LED toggle
-	out PORTB, LED     ;;; if 1000[ms]  LED toggle
+	cpi16x R27, R26, 1000  ;;; if 1000[ms] ?
+	brne MAIN9             ;;;      else  goto MAIN9
+	clr R27                ;;;      then  clear R27
+	clr R26                ;;;      then  clear R26
+	com LED                ;;;      then  LED all but  toggle
+	out PORTB, LED         ;;;      then  output LED
 MAIN9:
 	rjmp MAIN
 
@@ -94,7 +61,7 @@ ANA_COMP_ISR: reti      ;アナログ比較器出力遷移
 ADC_ISR: reti           ;A/D変換完了
 TIM1_COMPB_ISR: reti    ;タイマ/カウンタ1比較B一致
 TIM0_COMPA_ISR:         ;タマi/カウンタ0比較A一致
-	orix flag, f1ms
+	sbr flag, 1<<f1ms
 	reti
 
 TIM0_COMPB_ISR: reti    ;タイiマ/カウンタ0比較B一致

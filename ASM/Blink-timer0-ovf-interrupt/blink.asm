@@ -1,43 +1,11 @@
-.include "tn85def.inc"
+.include "../avr-def/tn85def.inc"
+.include "../macro.inc"
 
 .def temp = R16
 .def const1 = R1
 .def LED = R2
 .def flag = R3
 .equ f1ms=1<<0
-.macro outp
-	ldi temp, @1
-	out @0, temp
-.endmacro
-.macro ldix
-	ldi temp, @1
-	mov @0, temp
-.endmacro
-.macro andix
-	ldi temp, @1
-	and @0, temp
-.endmacro
-.macro orix
-	ldi temp, @1
-	or @0, temp
-.endmacro
-.macro eorix
-	ldi temp, @1
-	eor @0, temp
-.endmacro
-.macro cpix
-	ldi temp, @1
-	cp @0, temp
-.endmacro
-.macro cpi16x        ; usage: cpi16x registerH, registerL, 1000
-	ldi temp, LOW( @2 )
-	cp @1, temp
-	ldi temp, HIGH( @2 )
-	cpc @0, temp
-.endmacro
-.macro inccounter1000
-	adiw R26, 1    ; inc R27:R26
-.endmacro
 
 .ORG 0
 rjmp RESET              ;各種リセット

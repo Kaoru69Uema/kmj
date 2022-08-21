@@ -1,43 +1,11 @@
-.include "tn85def.inc"
+.include "../avr-def/tn85def.inc"
+.include "../macro.inc"
 
 .def temp = R16
-.def const1 = R1
-.def LED = R2
-.def flag = R3
-.equ f1ms=1<<0
-.macro outp
-	ldi temp, @1
-	out @0, temp
-.endmacro
-.macro ldix
-	ldi temp, @1
-	mov @0, temp
-.endmacro
-.macro andix
-	ldi temp, @1
-	and @0, temp
-.endmacro
-.macro orix
-	ldi temp, @1
-	or @0, temp
-.endmacro
-.macro eorix
-	ldi temp, @1
-	eor @0, temp
-.endmacro
-.macro cpix
-	ldi temp, @1
-	cp @0, temp
-.endmacro
-.macro cpi16x        ; usage: cpi16x registerH, registerL, 1000
-	ldi temp, LOW( @2 )
-	cp @1, temp
-	ldi temp, HIGH( @2 )
-	cpc @0, temp
-.endmacro
-.macro inccounter1000
-	adiw R26, 1    ; inc R27:R26
-.endmacro
+.def flag = R17
+.def LED = R18
+.equ f1ms=0
+.equ direction=1
 
 .ORG 0
 rjmp RESET              ;各種リセット
@@ -62,41 +30,61 @@ RESET:             ;各種リセット
 	outp SPL, LOW( RAMEND )
 	ldi temp, 0xff
 	out DDRB, temp
-	outp TCCR0B, 0b011<<CS00   ; ck/64
-	outp TIMSK, 1<<TOIE0
-	outp TCNT0, 8000000/64/1000-1
-	ldix const1, 1
+	outp TCCR0A, 1<<WGM01      ; ck/64 ctc-timer
+	outp TCCR0B, 0b011<<CS00   ; ck/64 ctc-timer
+	outp TIMSK, 1<<OCIE0A      ; TIM0_COMPA_ISR
+	outp OCR0A, 8000000/64/1000-1
+	outp TCNT0, 0
 	sei
+	ldi LED, 1
 MAIN:                ;;; 1[ms] wait
-	cpix flag, f1ms  ;;; 1[ms] wait
-	brne MAIN        ;;; 1[ms] wait
-	andix flag, ~f1ms       ;;; flag reset
-	inccounter1000         ;;; R27:R26 increment
-	cpi16x R27, R26, 1000  ;;; 1000[ms] check?
-	brne MAIN9             ;;; if not 1000[ms] goto MAIN9
-	clr R27            ;;; if 1000[ms]  clear R27
-	clr R26            ;;; if 1000[ms]  clear R26
-	eorix LED, 1<<PB0  ;;; if 1000[ms]  LED toggle
-	out PORTB, LED     ;;; if 1000[ms]  LED toggle
-MAIN9:
+	sbrs flag, f1ms  ;;; 1[ms] wait
 	rjmp MAIN
+	cbr flag, 1<<f1ms  ;;; flag reset
+	inccounter1000     ;;; R27:R26 incriment
+	cpi16x R27, R26, 200  ;;; if 200[ms]  ?
+	brne MAIN9            ;;;    else goto MAIN9
+	clr R26               ;;;    then R26 <= 0
+	clr R27               ;;;    then R27 <= 0
+	sbrs flag, direction   ;;; if 方向flag==1
+	rjmp left              ;;;   else  goto left
+	rjmp right             ;;;   then  goto right
+MAIN9:
+	out PORTB, LED    ;;; output LED -> PORTB
+	rjmp MAIN         ;;; MAIN へ戻る
 
+left:
+	lsl LED            ;;; 左シフト R7 <- R6 ... <- R0 <- 0
+	cpi LED, 0b10000   ;;; if LED == 0b10000 ?
+	brne left9         ;;;    else goto left9
+	sbr flag, 1<<direction ;; then 方向フラグ <= 1
+	ldi LED, 0b10000       ;; then LED <= 0b100000
+left9:
+	rjmp MAIN9       ;;; goto MAIN9
+
+right:
+	lsr LED            ;;; 右シフト 0 -> R7 -> R6 ...R1 -> R0
+	cpi LED, 0b00001   ;;; if LED == 0b00001 ?
+	brne right9            ;;;    else goto right9
+	cbr flag, 1<<direction ;;;    then 方向flag <= 0
+	ldi LED, 0b00001       ;;;    then LED <= 0b00001
+right9:
+	rjmp MAIN9       ;;; goto MAIN9
 
 
 INT0_ISR: reti          ;外部割り込み要求0
 PCINT0_ISR: reti        ;ピン変化割り込み要求
 TIM1_COMPA_ISR: reti    ;タイマ/カウンタ1比較A一致
 TIM1_OVF_ISR: reti      ;タイマ/カウンタ1溢れ
-TIM0_OVF_ISR:           ;タイマ/カウンタ0溢れ
-	outp TCNT0, 8000000/64/1000-1
-	orix flag, f1ms
-	reti
-
+TIM0_OVF_ISR: reti          ;タイマ/カウンタ0溢れ
 EE_RDY_ISR: reti        ;EEPROM操作可
 ANA_COMP_ISR: reti      ;アナログ比較器出力遷移
 ADC_ISR: reti           ;A/D変換完了
 TIM1_COMPB_ISR: reti    ;タイマ/カウンタ1比較B一致
-TIM0_COMPA_ISR: reti    ;タマi/カウンタ0比較A一致
+TIM0_COMPA_ISR:         ;タマi/カウンタ0比較A一致
+	sbr flag, 1<<f1ms
+	reti
+
 TIM0_COMPB_ISR: reti    ;タイiマ/カウンタ0比較B一致
 WDT_OVF_ISR: reti       ;ウォッチドッグ計時完了
 USI_START_ISR: reti     ;USI開始条件検出
