@@ -59,15 +59,11 @@ MAIN:
 
 INT0_ISR:                  ; 外部割り込み要求0
 	push R16
-	push R17
-	push R18
 	in   R16,   SREG
 	;;;;;;;;;;;;;;;;;;;;;;;;;
 	outp PORTB, 0b11111
 	;;;;;;;;;;;;;;;;;;;;;;;;;
 	out  SREG,  R16
-	pop  R18
-	pop  R17
 	pop  R16
 	reti
 
