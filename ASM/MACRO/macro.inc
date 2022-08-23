@@ -35,4 +35,17 @@
 .macro inccounter1000
 	adiw R26, 1    ; inc R27:R26
 .endmacro
-
+.macro delay
+	ldi R16, @0
+delay1:
+	push R16
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	dec R16
+	brne delay1
+	pop  R16
+.endmacro
