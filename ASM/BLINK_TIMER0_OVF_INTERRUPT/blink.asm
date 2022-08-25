@@ -6,7 +6,7 @@
 ;; LED  ----|PB4   PB1|--- LED
 ;; GND  ----|GND   PB0|--- LED
 ;;           ---------
-;;           TINY85
+;;            TINY85
 ;;
 ;; PROGRAMER: USBASP
 ;; 1[MHz]
@@ -22,7 +22,7 @@
 .equ f1ms = 0
 
 .ORG 0
-	rjmp RESET              ;各種リセット
+	rjmp RESET
 	reti	;; rjmp INT0_ISR           ;外部割り込み要求0
 	reti	;; rjmp PCINT0_ISR         ;ピン変化割り込み要求
 	reti	;; rjmp TIM1_COMPA_ISR     ;タイマ/カウンタ1比較A一致
@@ -46,7 +46,7 @@ RESET:             ;各種リセット
 	out DDRB, temp
 	outp TCCR0B, 0b011<<CS00   ; ck/64
 	outp TIMSK, 1<<TOIE0
-	outp TCNT0, 256-8000000/64/1000-1
+	outp TCNT0, 256-8000000/64/1000
 	sei
 MAIN:
 	sbrs flag, f1ms        ;;; 1[ms] ?
@@ -69,7 +69,7 @@ MAIN9:
 TIM0_OVF_ISR:              ; タイマ/カウンタ0溢れ
 	push R16
 	in R16, SREG
-	outp TCNT0, 256-8000000/64/1000-1
+	outp TCNT0, 256-8000000/64/1000
 	sbr flag, 1<<f1ms
 	out  SREG, R16
 	pop  R16

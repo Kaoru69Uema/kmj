@@ -42,25 +42,25 @@
 RESET:             ;各種リセット
 	outp SPH, HIGH( RAMEND )
 	outp SPL, LOW( RAMEND )
-	ldi temp, 0xff
-	out DDRB, temp
+	ldi  temp,   0xff
+	out  DDRB,   temp
 	outp TCCR0A, 1<<WGM01      ; ck/64 ctc-timer
 	outp TCCR0B, 0b011<<CS00   ; ck/64 ctc-timer
-	outp TIMSK, 1<<OCIE0A      ; TIM0_COMPA_ISR
-	outp OCR0A, 8000000/64/1000-1
-	outp TCNT0, 0
+	outp TIMSK,  1<<OCIE0A      ; TIM0_COMPA_ISR
+	outp OCR0A,  8000000/64/1000-1
+	outp TCNT0,  0
 	sei
 MAIN:
-	sbrs flag, f1ms  ;;; 1[ms] wait
-	brne MAIN        ;;; 1[ms] wait
-	cbr flag, 1<<f1ms  ;;; flag reset
+	sbrs flag,   f1ms      ;;; 1[ms] wait
+	brne MAIN              ;;; 1[ms] wait
+	cbr flag,    1<<f1ms   ;;; flag reset
 	inccounter1000         ;;; R27:R26 increment
-	cpi16x R27, R26, 1000  ;;; if 1000[ms] ?
+	cpi16x R27,  R26, 1000 ;;; if 1000[ms] ?
 	brne MAIN9             ;;;      else  goto MAIN9
-	clr R27                ;;;      then  clear R27
-	clr R26                ;;;      then  clear R26
-	com LED                ;;;      then  LED all but  toggle
-	out PORTB, LED         ;;;      then  output LED
+	clr  R27               ;;;      then  clear R27
+	clr  R26               ;;;      then  clear R26
+	com  LED               ;;;      then  LED all toggle
+	out  PORTB,   LED      ;;;      then  output LED
 MAIN9:
 	rjmp MAIN
 
