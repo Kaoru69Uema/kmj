@@ -1,7 +1,7 @@
 ;; 
 ;; Tsuyoshi Uema  OKINAWA JAPAN
 ;; 
-;; PCINT割り込み
+;; PCINT割り込み: ピン変化割り込み
 ;; 
 ;; LED OFF ->SW(PCINT2) -> LED ON  ( ONE SHOT )
 ;; RESET-SW-回路も組む
@@ -51,6 +51,8 @@
 	reti	;;; rjmp USI_START_ISR      ; USI開始条件検出
 	reti	;;; rjmp USI_OVF_ISR        ; USI計数器溢れ
 ;;;
+
+.org INT_VECTORS_SIZE                   ; 15
 
 RESET:
 	outp SPH,    HIGH( RAMEND )
