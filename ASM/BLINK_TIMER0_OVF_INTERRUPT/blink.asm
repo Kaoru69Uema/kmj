@@ -14,12 +14,28 @@
 ;;
 
 .include "../AVR_DEF/tn85def.inc"
-.include "../MACRO/macro.inc"
 
 .def temp = R16
 .def LED  = R17
 .def flag = R18
 .equ f1ms = 0
+
+.macro outp
+	ldi R16, @1
+	out @0, R16
+.endmacro
+
+.macro cpi16x        ; usage: cpi16x registerH, registerL, 1000
+	ldi R16, LOW( @2 )
+	cp @1, R16
+	ldi R16, HIGH( @2 )
+	cpc @0, R16
+.endmacro
+
+.macro inccounter1000
+	adiw R26, 1    ; inc R27:R26
+.endmacro
+
 
 .ORG 0
 	rjmp RESET

@@ -39,20 +39,20 @@
 ;;;	               ||++------COM0B1,COM0B0:10  比較一致でLow、BOTTOMでHigh
 ;;;	               ++--------COM0A1,COM0A0:10  比較一致でLow、BOTTOMでHigh
 	OUTP TCCR0B, (1 << CS00)  ; clk/1 分周なし
-LOOP:
+MAIN:
 	SBIC PINB, PB4  ; SWが押されていたら次をスキップ
 	RJMP BRITE1
 	RJMP BRITE2
-LOOP_9:
-	RJMP LOOP
+MAIN_9:
+	RJMP MAIN
 
 BRITE1:
 	OUTP OCR0A, 255
 	OUTP OCR0B,  30
-	RJMP LOOP_9
+	RJMP MAIN_9
 
 BRITE2:
 	OUTP OCR0A,  30
 	OUTP OCR0B, 255
-	RJMP LOOP_9
+	RJMP MAIN_9
 

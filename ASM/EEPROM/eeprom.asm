@@ -27,13 +27,18 @@
    
 
 .include "../AVR_DEF/tn85def.inc"
-.include "../MACRO/macro.inc"
 
 .def REG_EEAR_H = R18
 .def REG_EEAR_L = R17
 .def REG_EEDR_R = R20
 .def REG_EEDR_W = R21
 .equ EEPROMAR   = 1000
+
+.macro outp
+	ldi R16, @1
+	out @0, R16
+.endmacro
+
 
 .ORG 0
 	rjmp RESET                          ;各種リセット

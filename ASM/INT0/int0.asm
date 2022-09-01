@@ -23,7 +23,11 @@
    
 
 .include "../AVR_DEF/tn85def.inc"
-.include "../MACRO/macro.inc"
+
+.macro outp
+	ldi R16, @1
+	out @0, R16
+.endmacro
 
 
 .ORG 0
