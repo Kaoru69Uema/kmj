@@ -22,12 +22,12 @@
 
    ;;;--- アナログコンパレータは常時動いているようです ---
 
+.include "../AVR_DEF/tn85def.inc"
+
 .MACRO OUTP
 	LDI R16, @1
 	OUT @0, R16
 .ENDMACRO
-
-.include "../AVR_DEF/tn85def.inc"
 
 .org 0
 RESET:
