@@ -9,7 +9,7 @@
 ;;                  TINY85
 ;; 
 ;; PROGRAMER: USBASP
-;; 1[MHz]
+;; 8[MHz]
 ;; 
 ;; 
 
