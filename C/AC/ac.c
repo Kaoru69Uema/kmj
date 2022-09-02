@@ -9,14 +9,14 @@
 
 int main( void )
 {
-	DDRB  = 0b00010000;
+	DDRB  = 1<<PB4;
 	ACSR  = 1<<ACBG;           // 内部基準電圧1.1[v]選択
 
 	for(;;) {
 		if( ACSR & (1<<ACO) )
-			PORTB = 0b00010000;
+			PORTB = 0<<PB4;
 		else
-			PORTB = 0b00000000;
+			PORTB = 1<<PB4;
 	}
 	return 0;
 }
