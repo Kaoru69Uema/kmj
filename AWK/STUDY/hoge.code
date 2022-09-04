@@ -1,0 +1,16 @@
+include ../AVR-DEF/t85def.inc
+
+org 0
+add r0 r3
+
+
+
+
+kxnckfvk
+
+
+
+
+org INT_VECTORS_SIZE
+RESET:
+	rjmp RESET
