@@ -1,4 +1,4 @@
-TARGET = pwm
+TARGET = servo
 MIKON  = t85
 PORT   = /deb/ttyU0
 
