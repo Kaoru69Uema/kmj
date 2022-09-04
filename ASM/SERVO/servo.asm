@@ -96,29 +96,29 @@ MAIN:
 	breq MAIN   ;;; 0.01[ms]に達するまで待機
 	clr flag    ;;; flag クリア
 	inc_cnt24bit
-	cpi_cnt24bit 100000
-	brne MAIN9
-	clr cnt24bit_byte1
-	clr cnt24bit_byte2
-	clr cnt24bit_byte3
+	cpi_cnt24bit 100000  ;;; 1[s]に達した？ 
+	brne MAIN9           ;;; 達していないので抜ける
+	clr cnt24bit_byte1   ;;; 達したので、クリア
+	clr cnt24bit_byte2   ;;; 達したので、クリア
+	clr cnt24bit_byte3   ;;; 達したので、クリア
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	inc pwm_cnt
-	cpi pwm_cnt, 1
+	inc pwm_cnt          ;;; 1[s]毎にサーボの角度を変える
+	cpi pwm_cnt, 1       ;;; 1[s]?
 	brne MAIN_A
 	ldi pwm_on_time, 50
 	rjmp MAIN9
 MAIN_A:
-	cpi pwm_cnt, 2
+	cpi pwm_cnt, 2       ;;; 2[s]?
 	brne MAIN_B
 	ldi pwm_on_time, 145
 	rjmp MAIN9
 MAIN_B:
-	cpi pwm_cnt, 3
+	cpi pwm_cnt, 3       ;;; 3[s]?
 	brne MAIN_C
 	ldi pwm_on_time, 240
 	rjmp MAIN9
 MAIN_C:
-	cpi pwm_cnt, 4
+	cpi pwm_cnt, 4       ;;; 4[s]?
 	brne MAIN9
 	clr pwm_cnt
 MAIN9:
