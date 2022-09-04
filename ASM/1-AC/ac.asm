@@ -67,8 +67,8 @@ RESET:
 MAIN:
 	in R16, ACSR       ; 結果ACOを見てPORTB出力を変える
 	sbrs R16, ACO      ; 結果ACOを見てPORTB出力を変える
-	rjmp A
-	rjmp B
+	rjmp A      ; ACO:0 の時。基準比較電圧（PB0）＜　PB1の電圧
+	rjmp B      ; ACO:1 の時。基準比較電圧（PB0）＞　PB1の電圧
 MAIN9:
 	RJMP MAIN
 
@@ -113,3 +113,4 @@ B:	cbi  PORTB, PB4
 ;;; 	rjmp MAIN9
 ;;; 
 ;;; 
+;===========================================================ここまで
