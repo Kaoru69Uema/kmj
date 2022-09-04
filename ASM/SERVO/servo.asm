@@ -85,9 +85,9 @@
 .org INT_VECTORS_SIZE
 
 RESET:
- 	OutReg DDRB, 0b00011111  ;;; PWM OutPut
- 	OutReg TCCR0A, (1<<WGM01)  ;;; 高速PWM動作 ; 
- 	OutReg TCCR0B, (1<<CS01)               ;;; ck/8
+ 	OutReg DDRB, 0b00011111    ;;; PWM OutPut
+ 	OutReg TCCR0A, (1<<WGM01)  ;;; CTC動作 
+ 	OutReg TCCR0B, (1<<CS01)   ;;; ck/8
  	OutReg OCR0A, 9            ;;; 1/100000[s]==0.01[ms]
 	OutReg TIMSK, (1<<OCIE0A)  ;;; 比較A割り込み許可
 	sei
@@ -129,20 +129,20 @@ MAIN9:
 PWM:
 	pwm_cpi16 1
 	brne PWM1
-	OutReg PORTB, 0b0001111
+	OutReg PORTB, 0b00011111
 	rjmp PWM9
 PWM1:
 	cp pwm_cycle_l, pwm_on_time
 	ldi temp, 0
 	cpc pwm_cycle_h, temp
 	brne PWM2
-	OutReg PORTB, 0
+	OutReg PORTB, 0b00000000
 	rjmp PWM9
 PWM2:
-	pwm_cpi16 2000
-	brne PWM9
-	clr pwm_cycle_l
-	clr pwm_cycle_h
+	pwm_cpi16 2000    ;; 周期20[ms]に達した？
+	brne PWM9         ;; 達していないので、抜ける
+	clr pwm_cycle_l   ;; 達したので、クリア
+	clr pwm_cycle_h   ;; 達したので、クリア
 PWM9:
 	adiw pwm_cycle_l, 1
 	ret
