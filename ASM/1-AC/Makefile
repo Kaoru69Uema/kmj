@@ -5,7 +5,7 @@ PORT   = /deb/ttyU0
 all: $(TARGET).hex
 
 $(TARGET).hex: $(TARGET).asm
-	avra -I $(HOME)/AVR/avr-def $(TARGET).asm
+	avra $(TARGET).asm
 
 up: $(TARGET).hex
 	avrdude -c usbasp -p $(MIKON) -P $(PORT) -U flash:w:$(TARGET).hex:i
