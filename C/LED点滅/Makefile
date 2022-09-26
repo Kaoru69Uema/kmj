@@ -22,8 +22,11 @@ $(TARGET).hex: $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # 自作　HIDaspx　日本製AVRプログラマー使用 
-write: $(TARGET).hex
+upload: $(TARGET).hex
 	hidspx $(TARGET).hex
+
+edit: $(TARGET).c
+	vim $(TARGET).c
 
 .PHONY: clean
 clean:
