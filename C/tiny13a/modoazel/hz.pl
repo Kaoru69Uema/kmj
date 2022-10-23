@@ -1,0 +1,1 @@
+main:-member( Bunsyu, [1,8,64,256,1024] ), member( Hz, [ 396, 417, 528, 639, 741, 852, 888, 432, 444, 153, 2000, 4000] ), X is 8000000.0 / Bunsyu / ( Hz * 2 ) - 1, 0 < X , X < 256, write(Bunsyu),write(' :  '),write( Hz ),write('-->'),write( X ), writeln( "---" ), fail.
