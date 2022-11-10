@@ -17,9 +17,9 @@ unsigned int  freq_val_t3 = 0;  // Hz 測定値 t3
 unsigned int  freq_val_t4 = 0;  // Hz 測定値 t4
 unsigned int  freq_val_t5 = 0;  // Hz 測定値 t5
 unsigned int  freq_val_t6 = 0;  // Hz 測定値 t6
-unsigned int  freq_val_t7 = 0;  // Hz 測定値 t6
-unsigned int  freq_val_t8 = 0;  // Hz 測定値 t6
-unsigned int  freq_val_t9 = 0;  // Hz 測定値 t6
+unsigned int  freq_val_t7 = 0;  // Hz 測定値 t7
+unsigned int  freq_val_t8 = 0;  // Hz 測定値 t8
+unsigned int  freq_val_t9 = 0;  // Hz 測定値 t9
 
 #define    LCD        PORTB
 #define    LCD_DIR    DDRB
@@ -108,7 +108,7 @@ void disp( void )
 
 
 
-	tmp *= 100;
+	tmp *= 10;
 	tmp /= 10;
 
 
@@ -121,7 +121,7 @@ void disp( void )
 	lcd_cmd_8bit( 0x80 + 0x40 );  // Line 2
 
 	for ( i = 0 ; i < 8 ; i++ ) {
-		if( i==6 ) lcd_put_8bit('.');
+		if( i==7 ) lcd_put_8bit('.');
 		if( *(valx+i) != '0' ) notZero = 1;
 		if( ( notZero==0 ) && ( *(valx+i)=='0') ) lcd_put_8bit( ' ' );
 		else lcd_put_8bit( *(valx+i) );

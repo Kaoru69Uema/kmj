@@ -1,7 +1,7 @@
 ﻿F_CPU  = 10000000UL
 TARGET =  main
-HEDS   =  
-SRCS   =  $(TARGET).c
+HEDS   =  lcd.h
+SRCS   =  $(TARGET).c lcd.c
 OBJS   =  $(SRCS:.c=.o)
 # AVR デバイス情報
 AVR_CHIP  = at90s2313

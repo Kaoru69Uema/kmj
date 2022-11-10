@@ -1,13 +1,11 @@
-
+#if 1
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
-
 #include <util/delay.h>
+#endif
 
-
-
-const unsigned char a[] PROGMEM = "Tsuyoshi@@@0123Tsuyoshi@@@0123Tsuyoshi@@@0123Tsuyoshi@@@0123Tsuyoshi@@@0123Tsuyoshi@@@0123\0";
+#include "lcd.h"
 
 unsigned char ovf=0;
 unsigned int  freq_val_t0 = 0;  // Hz 測定値 t0
@@ -21,11 +19,6 @@ unsigned int  freq_val_t7 = 0;  // Hz 測定値 t7
 unsigned int  freq_val_t8 = 0;  // Hz 測定値 t8
 unsigned int  freq_val_t9 = 0;  // Hz 測定値 t9
 
-#define    LCD        PORTB
-#define    LCD_DIR    DDRB
-#define    LCD_E      PB1
-#define    LCD_RS     PB0
-#define    LCD_COL    16             // 20 or 16
 
 char valx[8] ;
 int target = 1234;
@@ -33,11 +26,6 @@ int target = 1234;
 int  main( void );
 void initialize( void );
 void disp( void );
-void lcd_init( void );
-void lcd_put_4bit( unsigned char );
-void lcd_put_8bit( unsigned char );
-void lcd_cmd_4bit( unsigned char );
-void lcd_cmd_8bit( unsigned char );
 ISR( TIMER0_OVF0_vect );
 ISR( TIMER1_COMP1_vect );
 void add_arr( void );
@@ -99,13 +87,8 @@ void disp( void )
 		lcd_put_8bit( ' ' );
 	}
 
-
-
-
 	tmp = freq_val_t0 + freq_val_t1 + freq_val_t2 + freq_val_t3 + freq_val_t4 +
 	           freq_val_t5 + freq_val_t6 + freq_val_t7 + freq_val_t8 + freq_val_t9;
-
-
 
 
 	tmp *= 10;
@@ -127,6 +110,9 @@ void disp( void )
 		else lcd_put_8bit( *(valx+i) );
 	}
 
+	lcd_put_8bit( ' ' );
+	lcd_put_8bit( 'H' );
+	lcd_put_8bit( 'z' );
 }
 
 ISR( TIMER0_OVF0_vect )
@@ -162,50 +148,3 @@ ISR( TIMER1_COMP1_vect )
 }
 
 
-void lcd_init( void )
-{
-	_delay_ms( 500 );
-	lcd_cmd_4bit( 0x30 );
-	_delay_ms(5);
-	lcd_cmd_4bit( 0x30 );
-	_delay_ms(5);
-	lcd_cmd_4bit( 0x30 );
-	_delay_ms(1);
-	lcd_cmd_4bit( 0x20 );
-	lcd_cmd_8bit( 0x28 );
-	lcd_cmd_8bit( 0x0e );
-	lcd_cmd_8bit( 0x06 );
-	lcd_cmd_8bit( 0x01 );
-	_delay_ms( 15 );
-}
-
-void lcd_put_4bit( unsigned char d )
-{
-	LCD = LCD & 0x0F;
-	LCD = LCD | ( d & 0xf0 );
-	LCD |=  (1<<LCD_E);             // HIGH
-	_delay_us( 20 );
-	LCD &= ~(1<<LCD_E);             // LOW
-	_delay_us( 20 );
-}
-
-void lcd_put_8bit( unsigned char d )
-{
-	lcd_put_4bit( d & 0xf0 );
-	lcd_put_4bit( d << 4 );
-	_delay_ms( 8 );
-}
-
-void lcd_cmd_4bit( unsigned char c )
-{
-	LCD &= ~(1<<LCD_RS);            // LOW
-	lcd_put_4bit( c );
-	LCD |=  (1<<LCD_RS);            // HIGH
-}
-
-void lcd_cmd_8bit( unsigned char c )
-{
-	LCD &= ~(1<<LCD_RS);            // LOW
-	lcd_put_8bit( c );
-	LCD |=  (1<<LCD_RS);            // HIGH
-}

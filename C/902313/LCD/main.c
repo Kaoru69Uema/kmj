@@ -2,17 +2,17 @@
 /* 8TAB                                                                                            */
 /*                     --------                      ------------                                  */
 /*                    |        |                    |            |                                 */
-/*  +5[V]------------ |   A PB7|--------LCD_DATA_7--|            |--+5[V]                          */
-/*  GND-------------- |   T PB6|--------LCD_DATA_6--|    L       |----GND                          */
-/*                    |   t PB5|--------LCD_DATA_5--|            |                                 */
-/*                    |   i PB4|--------LCD_DATA_4--|    C       |----VO---GND                     */
-/*                    |   n    |                    |            |----R/W--GND                     */
-/*                    |   y    |                    |    D       |                                 */
+/*  +5[V]------------ |     PB7|--------LCD_DATA_7--|            |--+5[V]                          */
+/*  GND-------------- |     PB6|--------LCD_DATA_6--|    L       |----GND                          */
+/*                    |     PB5|--------LCD_DATA_5--|            |                                 */
+/*                    |   9 PB4|--------LCD_DATA_4--|    C       |----VO---GND                     */
+/*                    |   0    |                    |            |----R/W--GND                     */
+/*                    |   S    |                    |    D       |                                 */
 /*                    |   2    |                    |            |                                 */
 /*                    |   3 PB1| --------LCD_E------|            |----LCD_DATA_3--OPEN             */
 /*                    |   1 PB0| --------LCD_RS-----|            |----LCD_DATA_2--OPEN             */
 /*                    |   3    |                    |            |----LCD_DATA_1--OPEN             */
-/*                    |   A    |                    |            |----LCD_DATA_0--OPEN             */
+/*                    |        |                    |            |----LCD_DATA_0--OPEN             */
 /*                    |        |                     ------------                                  */
 /*                    |        |                                                                   */
 /*                     --------                                                                    */
@@ -44,9 +44,9 @@
 /*                                                                                                 */
 /*-------------------------------------------------------------------------------------------------*/
 
-const unsigned char a[] PROGMEM = "Let me try again! ";
+const unsigned char a[] PROGMEM = "Let me try again!";
 const unsigned char b[] PROGMEM = "                  ";
-const unsigned char c[] PROGMEM = "You and I again.  ";
+const unsigned char c[] PROGMEM = "You and I again.";
 const unsigned char d[] PROGMEM = "We made New House!";
 
 
