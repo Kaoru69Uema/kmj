@@ -1,0 +1,18 @@
+.NOLIST
+.INCLUDE "../../AVR_DEF/tn85def.inc"
+.LIST
+.LISTMAC
+.INCLUDE "../../MACRO/macro.inc"
+
+.ORG 0
+	RJMP RESET
+	
+
+
+.org INT_VECTORS_SIZE
+
+RESET:
+	OUTP  DDRB, $0F
+	OUTP  PORTB, $AA
+END:
+	RJMP END

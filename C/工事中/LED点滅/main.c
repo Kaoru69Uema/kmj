@@ -1,41 +1,58 @@
-// 上間つよし＠沖縄県西原町＠久米島出身 令和4年9月26日
+//
+// LED点滅　ソフトタイマー使用
+//
+// 上間つよし＠沖縄県西原町＠久米島出身
+//
+// tiny85 内蔵１MHz
+//
 
-#define F_CPU 1000000UL
 
-// ヘッダファイル
 #include <avr/io.h>
-#include <util/delay.h>
+#include <avr/interrupt.h>
 
-// グローバル定義・変数
-#define EXIT_SUCCESS 0
-#define True  1
-#define False 0
+#include "soft_timer.h"
+
+volatile unsigned char f_1ms = 0;
+
+#define LED    PB0
+
+
+int main( void );
+void initialize( void );
+ISR( TIM0_COMPA_vect );
 
 int main( void )
 {
+	t_ini();
+	initialize();
+	sei();
 
-	DDRB=1<<PB0;                // PB0出力
-	while( True ) {             // 無限ループ
-		PORTB ^= 1<<PB0;    // PB0(LED)点滅
-		_delay_ms( 500 );   // 500[ms]待機
+	t_req( 0 );
+	while( 1 ) {
+		t_main();
+
+		if( t_tup( 0 ) ) {
+			t_req( 0 );
+			PORTB ^= 1 << LED;
+		}
+
+		while( ! f_1ms ) ;
+		f_1ms = 0;
 	}
-	return EXIT_SUCCESS;
+	return 0;
 }
 
-// 回路図
-//                    --------
-//            Reset--|        |--
-//                 --|        |--
-//                 --|        |--
-//                 --|        |--
-//                 --| AVR    |--
-//                 --| ATmega |--
-//              VCC--| 328p   |--GND--||--+   0.1[uF]
-//              GND--|        |--         |
-//                 --|        |--VCC------+
-//                 --|        |--SCK
-//                 --|        |--MISO
-//                 --|        |--MOSI
-//                 --|        |--
-// GND--[330]--LED --|        |--
-//                    --------
+void initialize( void )
+{
+	TCCR0A  = 1 << WGM01;
+	TCCR0B  = 0b010 << CS00;
+	OCR0A   = 1000000/8/1000-1;
+	TIMSK   = 1 << OCIE0A;
+	TCNT0   = 0;
+	DDRB    = 1 << LED;
+}
+
+ISR( TIM0_COMPA_vect )
+{
+	f_1ms = 1;
+}

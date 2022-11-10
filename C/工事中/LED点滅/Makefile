@@ -1,10 +1,10 @@
 ﻿F_CPU  = 1000000
 TARGET =  main
-HEDS   =  #AvrInit.h PBToggle.h
-SRCS   =  $(TARGET).c       # usart.c eeprom.c
+HEDS   =  soft_timer.h
+SRCS   =  $(TARGET).c soft_timer.c
 OBJS   =  $(SRCS:.c=.o)     # AvrInit.o PBToggle.o main.o
 # AVR デバイス情報
-AVR_CHIP  = atmega328p
+AVR_CHIP  = attiny85
 
 # コンパイラ情報
 CC = avr-gcc

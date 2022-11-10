@@ -44,7 +44,7 @@
 ;;;#pragma partinc 0
 
 ; ***** SPECIFY DEVICE ***************************************************
-.device AT90S2313
+;;.device AT90S2313
 ;;;#pragma AVRPART ADMIN PART_NAME AT90S2313
 .equ	SIGNATURE_000	= 0x1e
 .equ	SIGNATURE_001	= 0x91

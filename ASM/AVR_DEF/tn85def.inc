@@ -37,8 +37,8 @@
 ;* ...                         ;otherwise do something else
 ;*************************************************************************
 
-;;;#ifndef _TN85DEF_INC_
-;;;#define _TN85DEF_INC_
+#ifndef _TN85DEF_INC_
+#define _TN85DEF_INC_
 
 
 ;;;#pragma partinc 0
@@ -678,6 +678,6 @@
 
 .equ	INT_VECTORS_SIZE	= 15	; size in words
 
-;;;#endif  /* _TN85DEF_INC_ */
+#endif  /* _TN85DEF_INC_ */
 
 ; ***** END OF FILE ******************************************************
