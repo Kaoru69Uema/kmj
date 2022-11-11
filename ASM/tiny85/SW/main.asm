@@ -1,4 +1,5 @@
-;; TIMER0:CTC:LED BLINK     TSUYOSHI UEMA   OKINAWA JAPAN
+;; スイッチ入力
+;; ここでは５回照合を行いました
 ;; 
 ;;                 *--------
 ;; RESET----------|RESET VCC|------------VCC
