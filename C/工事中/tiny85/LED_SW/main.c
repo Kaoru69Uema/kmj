@@ -43,6 +43,8 @@ int main( void )
 	initialize();     /* 一般初期化     */
 	sw_ini();         /* スイッチ初期化 */
 
+  sei();
+
 	while( 1 ) {
 		sw_main();
 		if( sw_dn & ( 1 << SW ) )       /* 押した */
