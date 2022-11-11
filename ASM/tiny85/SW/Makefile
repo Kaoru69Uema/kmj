@@ -1,6 +1,5 @@
 TARGET = main
 MIKON  = t85
-//PORT   = /deb/ttyU0
 
 all: $(TARGET).hex
 

@@ -1,158 +1,146 @@
-; ２つのincファイルを現在のディレクトリにコピーしました。
-; ３回照合ではチャタリングを外すことができない場合がありました。
-; ４回照合に変更します。今から取り掛かります。
-; 2022年11月11日午後7時36分〜
+;; TIMER0:CTC:LED BLINK     TSUYOSHI UEMA   OKINAWA JAPAN
+;; 
+;;                 *--------
+;; RESET----------|RESET VCC|------------VCC
+;; GND-[330]-LED--|PB3   PB2|--
+;; GND-------SW---|PB3   PB1|--
+;; GND------------|GND   PB0|--
+;;                 ---------
+;;                  TINY85
+;; 
+;; PROGRAMER: HIDASPX  自作しました。
+;; （ネットGITHUB情報IRUKA様：ありがとうございます。）
+;;
+;; 8[MHZ]
+;; 
+;; 
 
-.NOLIST
 .INCLUDE "tn85def.inc"
-.LIST
-.LISTMAC
-.INCLUDE "macro.inc"
+
+.EQU F1MS    = 0
+.DEF SV_SREG = R1
+.DEF SW_DN   = R2
+.DEF SW_UP   = R3
+.DEF SW_NOW  = R4
+.DEF SW_KAK  = R5
+.DEF SW_ZZZZ = R6
+.DEF SW_ZZZ  = R7
+.DEF SW_ZZ   = R8
+.DEF SW_Z    = R9
+.DEF SW_TMP  = R10
+.DEF SW_CNT  = R11
+
+.DEF TMP     = R16
+.EQU LED     = PB3
+.EQU SW      = PB4
+.DEF FLAG    = R18
+
+
+
+.MACRO OUTP
+	LDI R16, @1
+	OUT @0, R16
+.ENDMACRO
 
 .ORG 0
-RJMP RESET
-; ***** INTERRUPT VECTORS ************************************************
-.ORG    INT0ADDR        ;EXTERNAL INTERRUPT 0
-  reti
-.ORG    PCI0ADDR        ;PIN CHANGE INTERRUPT REQUEST 0
-  reti
-.ORG    OC1AADDR        ;TIMER/COUNTER1 COMPARE MATCH 1A
-  reti
-.ORG    OVF1ADDR        ;TIMER/COUNTER1 OVERFLOW
-  reti
-.ORG    OVF0ADDR        ;TIMER/COUNTER0 OVERFLOW
-  reti
-.ORG    ERDYADDR        ;EEPROM READY
-  reti
-.ORG    ACIADDR         ;ANALOG COMPARATOR
-  reti
-.ORG    ADCCADDR        ;ADC CONVERSION READY
-  reti
-.ORG    OC1BADDR        ;TIMER/COUNTER1 COMPARE MATCH B
-  reti
-.ORG    OC0AADDR        ;TIMER/COUNTER0 COMPARE MATCH A
-  rjmp  COMPA0
-.ORG    OC0BADDR        ;TIMER/COUNTER0 COMPARE MATCH B
-  reti
-.ORG    WDTADDR         ;WATCHDOG TIME-OUT
-  reti
-.ORG    USI_STARTADDR   ;USI START
-  reti
-.ORG    USI_OVFADDR     ;USI OVERFLOW
-  reti
-
-.ORG    INT_VECTORS_SIZE    ;SIZE IN WORDS
-
-; 名称設定
-.EQU    SW      =   PB4
-.EQU    LED     =   PB3
-
-; レジスタ別名設定
-.DEF    SV_SREG =   R1   ; SREG 退避用
-.DEF    SW_NOW  =   R2   ; SW 入力値
-.DEF    SW_CNT  =   R3   ; SW カウンタ
-.DEF    SW_KAK  =   R4   ; SW_確定値
-.DEF    SW_Z__  =   R5   ; SW_前回値
-.DEF    SW_ZZ_  =   R6   ; SW_前々回値
-.DEF    SW_ZZZ  =   R7   ; SW_前々々回値         ; 追加(４回照合)
-.DEF    SW_ZZZZ  =   R8  ; SW_前々々回値         ; 追加(４回照合)
-.DEF    SW_UP_  =   R9   ; SW_立ち上がり・フラグ
-.DEF    SW_DN_  =   R10  ; SW_立ち下がり・フラグ
-.DEF    SW_TMP  =   R11  ; SW_一時レジスタ
-.DEF    F_1MS   =   R12  ; 1[ms] フラグ
-.DEF    F_200US =   R13  ; 200[us] フラグ
-.DEF    TMP     =   R16  ; 一時：レジスタ
+	RJMP RESET                        ;各種リセット
+	RETI	; RJMP INT0_ISR           ;外部割り込み要求0
+	RETI	; RJMP PCINT0_ISR         ;ピン変化割り込み要求
+	RETI	; RJMP TIM1_COMPA_ISR     ;タイマ/カウンタ1比較A一致
+	RETI	; RJMP TIM1_OVF_ISR       ;タイマ/カウンタ1溢れ
+	RETI	; RJMP TIM0_OVF_ISR       ;タイマ/カウンタ0溢れ
+	RETI	; RJMP EE_RDY_ISR         ;EEPROM操作可
+	RETI	; RJMP ANA_COMP_ISR       ;アナログ比較器出力遷移
+	RETI	; RJMP ADC_ISR            ;A/D変換完了
+	RETI	; RJMP TIM1_COMPB_ISR     ;タイマ/カウンタ1比較B一致
+	RJMP TIM0_COMPA_ISR               ;タイマ/カウンタ0比較A一致
+	RETI	; RJMP TIM0_COMPB_ISR     ;タイマ/カウンタ0比較B一致
+	RETI	; RJMP WDT_OVF_ISR        ;ウォッチドッグ計時完了
+	RETI	; RJMP USI_START_ISR      ;USI開始条件検出
+	RETI	; RJMP USI_OVF_ISR        ;USI計数器溢れ
+;;;
 
 RESET:
-  CLI
-  ; IO SETTING
-  SBI  DDRB,   LED                ; ポート　出力設定
-  SBI  PORTB,  SW                 ; スイッチプルアップ
-
-  ; TIMER0 SETTING
-  OUTP  TCCR0A, (1<<WGM01)              ; タイマー: CTC動作
-  OUTP  TCCR0B, (1<<CS01)               ; クロック分周 ck/8
-  OUTP  OCR0A,  (8000000/8/5000-1)      ; 1/5000[s] = 200[us]
-  OUTP  TIMSK,  (1<<OCIE0A)             ; 比較一致A割込み許可
-  SEI                                   ; 全割り込み許可
+	OUTP SPH, HIGH( RAMEND )
+	OUTP SPL, LOW( RAMEND )
+	OUTP  DDRB, (1<<LED)
+  OUTP  PORTB, (1<<SW)
+	OUTP TCCR0A, 1<<WGM01      ; CK/64 CTC-TIMER
+	OUTP TCCR0B, 0B011<<CS00   ; CK/64 CTC-TIMER
+	OUTP TIMSK,  1<<OCIE0A      ; TIM0_COMPA_ISR
+	OUTP OCR0A,  8000000/64/1000-1
+	OUTP TCNT0,  0
+	SEI
 MAIN:
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; TIMMING WAIT 1ms
-  TST   F_1MS           ; ゼロのテスト
-  BREQ  END9            ; ゼロなので何もせずに抜ける。
-  CLR   F_1MS           ; フラグ・リセット
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; TIMMING WAIT 1ms
-  RCALL SW_MAIN         ; スイッチ入力（３回照合）
-  SBRC  SW_DN_,  SW     ; 押された？
-  RJMP  LED_ON          ; LEDオン
-  SBRC  SW_UP_,  SW     ; 離された？
-  RJMP  LED_OFF         ; LEDオフ
-END9:
-  RJMP MAIN
+	SBRS FLAG,   F1MS      ;;; 1[MS] WAIT
+	BRNE MAIN              ;;; 1[MS] WAIT
+	CBR FLAG,    1<<F1MS   ;;; FLAG RESET
+  RCALL SW_MAIN
+  SBRC  SW_DN, SW
+  RJMP  LED_ON
+  SBRC  SW_UP, SW
+  RJMP  LED_OFF
+MAIN9:
+	RJMP MAIN
+
+led_on:
+  SBI PORTB, LED
+  rjmp MAIN9
+
+LED_OFF:
+  CBI PORTB, LED
+  rjmp MAIN9
+
+
 
 SW_MAIN:
   IN    SV_SREG,  SREG    ; ステータスレジスタ保存
-  PUSH  TMP               ; 一時レジスタ退避
-  CLR   SW_DN_            ; 立ち下がりフラグ・リセット
-  CLR   SW_UP_            ; 立ち上がりフラグ・リセット
+  CLR   SW_DN            ; 立ち下がりフラグ・リセット
+  CLR   SW_UP            ; 立ち上がりフラグ・リセット
   INC   SW_CNT            ; １０ミリ秒カウンタ・インクリメント
-  LDI   TMP, 12           ; 比較用レジスタセット
+  LDI   TMP, 10           ; 比較用レジスタセット
   CP    SW_CNT, TMP       ; １０カウント？
   BRNE  SW_END            ; １０回に達していなければ抜ける
   CLR   SW_CNT            ; カウンター・リセット
 
-  INREG TMP,  PINB        ; スイッチの状態を入力
+  IN TMP,  PINB        ; スイッチの状態を入力
   ANDI  TMP,  (1<<SW)     ; 不要ビット削除
   MOV   SW_NOW, TMP       ; 今回値を保存
-  OR    TMP,  SW_ZZZZ      ; (今回値 or 前々々回値 or 前々回値 & 前回値) &  確定値 ; 追加
-  OR    TMP,  SW_ZZZ      ; (今回値 or 前々々回値 or 前々回値 & 前回値) &  確定値 ; 追加
-  OR    TMP,  SW_ZZ_      ; 上の続き
-  OR    TMP,  SW_Z__      ; 上の続き
+  OR    TMP,  SW_ZZZZ      ; (今回値 OR 前々々回値 OR 前々回値 & 前回値) &  確定値 ; 追加
+  OR    TMP,  SW_ZZZ      ; (今回値 OR 前々々回値 OR 前々回値 & 前回値) &  確定値 ; 追加
+  OR    TMP,  SW_ZZ      ; 上の続き
+  OR    TMP,  SW_Z      ; 上の続き
   AND   TMP,  SW_KAK      ; 上の続き
   MOV   SW_TMP, TMP       ; 計算した途中計算結果を保存
   MOV   TMP,  SW_NOW      ; 今回値をコピー
-  AND   TMP,  SW_ZZZZ      ; (今回値 and 前々々回値 and 前々回値 and 前回値) or (上の途中結果) ; 追加
-  AND   TMP,  SW_ZZZ      ; (今回値 and 前々々回値 and 前々回値 and 前回値) or (上の途中結果) ; 追加
-  AND   TMP,  SW_ZZ_      ; 上の続き
-  AND   TMP,  SW_Z__      ; 上の続き
-  OR    SW_TMP, TMP       ; 計算完了：新確定値
+  AND   TMP,  SW_ZZZZ      ; (今回値 AND 前々々回値 AND 前々回値 AND 前回値) OR (上の途中結果) ; 追加
+  AND   TMP,  SW_ZZZ      ; (今回値 AND 前々々回値 AND 前々回値 AND 前回値) OR (上の途中結果) ; 追加
+  AND   TMP,  SW_ZZ      ; 上の続き
+  AND   TMP,  SW_Z      ; 上の続き
+  OR    TMP, SW_TMP       ; 計算完了：新確定値
   MOV   SW_TMP, SW_KAK    ; 前の確定値保存
   MOV   SW_KAK, TMP       ; 計算した新確定値を保存
   MOV   TMP,  SW_TMP      ; 立ち上がり＝〜前確定値 & 新確定値
   COM   TMP               ; 上の続き
   AND   TMP,  SW_KAK      ; 上の続き
-  MOV   SW_UP_, TMP       ; 立ち上がりフラグ保存
+  MOV   SW_UP, TMP       ; 立ち上がりフラグ保存
   MOV   TMP,  SW_KAK      ; 立ち下がり＝前確定値 & 〜新確定値
   COM   TMP               ; 上の続き
   AND   SW_TMP, TMP       ; 上の続き
-  MOV   SW_DN_, SW_TMP    ; 立ち下がりフラグ保存
+  MOV   SW_DN, SW_TMP    ; 立ち下がりフラグ保存
   MOV   SW_ZZZZ, SW_ZZZ    ; 前々々回 <= 前々回
-  MOV   SW_ZZZ, SW_ZZ_    ; 前々々回 <= 前々回
-  MOV   SW_ZZ_, SW_Z__    ; 前々回 <= 前回
-  MOV   SW_Z__, SW_NOW    ; 前回   <= 今回
+  MOV   SW_ZZZ, SW_ZZ    ; 前々々回 <= 前々回
+  MOV   SW_ZZ, SW_Z    ; 前々回 <= 前回
+  MOV   SW_Z, SW_NOW    ; 前回   <= 今回
 SW_END:
-  POP   TMP               ; 一時レジスタ復帰
   OUT   SREG,   SV_SREG   ; シフトレジスタ戻す
   RET
 
-LED_ON:                   ; LEDオン
-  SBI PORTB, LED
-  rjmp END9
 
-LED_OFF:                  ; LEDオフ
-  CBI PORTB, LED
-  rjmp END9
-
-COMPA0:                   ; ２００マイクロ秒毎に呼び出される
-  IN      SV_SREG,  SREG  ; １ミリ秒フラグ立てる
-  PUSH    TMP
-  INC     F_200US
-  LDI     TMP, 5
-  CP      TMP,  F_200US
-  BRNE    COMPA0_END
-  CLR     F_200US
-  INC     F_1MS
-COMPA0_END:
-  POP     TMP
-  OUT     SREG, SV_SREG
-  reti
-
+;----------------------------------------------------
+TIM0_COMPA_ISR:         ;タマI/カウンタ0比較A一致
+  IN  SV_SREG, SREG
+	SBR FLAG, 1<<F1MS
+  OUT SREG, SV_SREG
+	RETI
+;----------------------------------------------------
