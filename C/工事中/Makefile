@@ -1,18 +1,14 @@
-﻿# Makefile  ひな型
-F_CPU  = 8000000
-TARGET =  blink
+﻿# Makefile : ひな型
+
+TARGET =  Blink
 HEDS   =  #AvrInit.h PBToggle.h
-SRCS   =  $(TARGET).c       # usart.c eeprom.c
+SRCS   =  main.c
 OBJS   =  $(SRCS:.c=.o)     # AvrInit.o PBToggle.o main.o
 # AVR デバイス情報
-AVR_CHIP  = attiny85
-AVR_CHIP2 = t85
-# ポート
-PORT = /dev/ttyU0
-
+AVR_CHIP = at90s2313
 # コンパイラ情報
 CC = avr-gcc
-CFLAGS = -Wall -Os -mmcu=$(AVR_CHIP) -DF_CPU=$(F_CPU)
+CFLAGS = -Wall -Os -mmcu=$(AVR_CHIP)
 # その他
 SIZE    = avr-size --format=avr --mcu=$(AVR_CHIP)
 RM = -rm -f
@@ -26,10 +22,7 @@ $(TARGET).hex: $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 write: $(TARGET).hex
-	doas avrdude -c $(PROGRAMMER) \
-                     -p $(AVR_CHIP2) \
-                     -P $(PORT) \
-                     -U flash:w:$(TARGET).hex:i
+	hidspx $(TARGET).hex
 
 .PHONY: clean
 clean:

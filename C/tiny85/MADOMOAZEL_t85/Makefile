@@ -1,4 +1,4 @@
-﻿F_CPU  = 8000000UL
+﻿F_CPU  = 10000000UL
 TARGET =  main
 HEDS   =  soft_timer.h sw.h
 SRCS   =  $(TARGET).c soft_timer.c sw.c

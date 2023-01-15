@@ -18,6 +18,7 @@ unsigned int  freq_val_t6 = 0;  // Hz 測定値 t6
 unsigned int  freq_val_t7 = 0;  // Hz 測定値 t7
 unsigned int  freq_val_t8 = 0;  // Hz 測定値 t8
 unsigned int  freq_val_t9 = 0;  // Hz 測定値 t9
+unsigned char freq_val_count=0; // freq_val_tx 保存回数。１０回以上は、上がらない。
 
 
 char valx[8] ;
@@ -92,7 +93,7 @@ void disp( void )
 
 
 	tmp *= 10;
-	tmp /= 10;
+	tmp /= freq_val_count;
 
 
 
@@ -135,6 +136,7 @@ ISR( TIMER1_COMP1_vect )
 	ovf = 0;
 	TCNT0 = 0;
 
+  if( ++freq_val_count > 10 ) freq_val_count = 10;
 	freq_val_t0 = freq_val_t1;
 	freq_val_t1 = freq_val_t2;
 	freq_val_t2 = freq_val_t3;

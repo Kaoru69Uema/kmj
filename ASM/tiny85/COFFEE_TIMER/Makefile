@@ -6,7 +6,7 @@ all: $(TARGET).hex
 $(TARGET).hex: $(TARGET).asm
 	avra  $(TARGET).asm
 
-up: $(TARGET).hex
+upload: $(TARGET).hex
 	hidspx $(TARGET).hex
 
 

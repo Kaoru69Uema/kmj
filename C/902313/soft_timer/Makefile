@@ -1,14 +1,14 @@
-﻿# Makefile : ひな型
-
-TARGET =  Blink
-HEDS   =  #AvrInit.h PBToggle.h
-SRCS   =  main.c
-OBJS   =  $(SRCS:.c=.o)     # AvrInit.o PBToggle.o main.o
+﻿F_CPU  = 10000000UL
+TARGET =  main
+HEDS   =  soft_timer.h
+SRCS   =  $(TARGET).c soft_timer.c
+OBJS   =  $(SRCS:.c=.o)
 # AVR デバイス情報
-AVR_CHIP = at90s2313
+AVR_CHIP  = at90s2313
+
 # コンパイラ情報
 CC = avr-gcc
-CFLAGS = -Wall -Os -mmcu=$(AVR_CHIP)
+CFLAGS = -Wall -Os -mmcu=$(AVR_CHIP) -DF_CPU=$(F_CPU)
 # その他
 SIZE    = avr-size --format=avr --mcu=$(AVR_CHIP)
 RM = -rm -f
@@ -21,7 +21,7 @@ $(TARGET).hex: $(OBJS)
 %.o: %.c $(HEDS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-write: $(TARGET).hex
+upload: $(TARGET).hex
 	hidspx $(TARGET).hex
 
 .PHONY: clean

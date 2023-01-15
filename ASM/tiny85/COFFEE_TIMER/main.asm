@@ -24,7 +24,7 @@
 ;; 
 ;; 
 
-.INCLUDE "tn85def.inc"
+.INCLUDE "../tn85def.inc"
 
 .EQU F1MS    = 0
 .DEF SV_SREG = R1
