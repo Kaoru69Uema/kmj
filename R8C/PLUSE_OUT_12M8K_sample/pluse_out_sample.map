@@ -1,0 +1,460 @@
+Archive member included to satisfy reference by file (symbol)
+
+/usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_memregs.o)
+                              release/common/vect.o (mem0)
+/usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+                              release/common/init.o (m32c_jsri16)
+/usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+                              release/main.o (___udivsi3)
+/usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+                              /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o) (___clz_tab)
+/usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+                              /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o) (___popcount_tab)
+/usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+                              release/common/syscalls.o (___errno)
+/usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+                              /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o) (__impure_ptr)
+/usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+                              release/main.o (_strncmp)
+
+Discarded input sections
+
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+ .group         0x0000000000000000        0x8 release/main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x0000000000000300 0x0000000000000400 w
+ROM              0x0000000000008000 0x0000000000007ed8 r
+EXT              0x0000000000010000 0x0000000000008000 r
+VVEC             0x000000000000fed8 0x0000000000000100 r
+FVEC             0x000000000000ffd8 0x0000000000000028 r
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD release/common/start.o
+LOAD release/common/vect.o
+LOAD release/common/syscalls.o
+LOAD release/common/init.o
+LOAD release/main.o
+LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libsupc++.a
+LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a
+START GROUP
+LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a
+LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libnosys.a
+END GROUP
+LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a
+LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libm32cgloss.a
+                0x00000000000007c0                _usp_init = 0x7c0
+                0x0000000000000800                _isp_init = 0x800
+
+.text           0x0000000000008000     0x15e4
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x0000000000008000       0x1b release/common/start.o
+                0x0000000000008000                _start
+                0x0000000000008000                _reset_start
+                0x0000000000008018                _exit
+ .text          0x000000000000801b      0x452 release/common/vect.o
+                0x000000000000801b                _INT3_intr
+                0x000000000000801c                _INT2_intr
+                0x0000000000008065                _INT1_intr
+                0x00000000000080ae                _INT0_intr
+                0x0000000000008189                _ADC_intr
+                0x000000000000821b                _TIMER_RC_intr
+                0x00000000000082ad                _COMP_B3_intr
+                0x00000000000082f6                _COMP_B1_intr
+                0x000000000000833f                _FLASH_READY_intr
+                0x0000000000008388                _null_intr
+                0x00000000000083d1                _brk_inst
+                0x000000000000841a                _undef_inst
+                0x0000000000008463                _di
+                0x0000000000008468                _ei
+ .text          0x000000000000846d      0x102 release/common/syscalls.o
+                0x000000000000846d                _open
+                0x000000000000847e                _read
+                0x00000000000084bf                _write
+                0x0000000000008504                _lseek
+                0x0000000000008519                _link
+                0x000000000000851c                _unlink
+                0x0000000000008527                _fstat
+                0x000000000000853c                _close
+                0x0000000000008549                _isatty
+                0x0000000000008568                _kill
+                0x0000000000008569                _getpid
+ .text          0x000000000000856f       0x9e release/common/init.o
+                0x000000000000856f                __init
+ .text          0x000000000000860d      0x2a6 release/main.o
+                0x000000000000860d                _TIMER_RB_intr
+                0x000000000000862d                _TIMER_RJ_intr
+                0x0000000000008653                _UART0_RX_intr
+                0x000000000000869c                _UART0_TX_intr
+                0x00000000000087ce                _sci_putch
+                0x00000000000087f3                _sci_puts
+                0x0000000000008850                _sci_length
+                0x00000000000088ae                _sci_getch
+ .text._ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5irecvEv
+                0x00000000000088b3       0x45 release/main.o
+                0x00000000000088b3                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5irecvEv
+ .text._ZNK6device6trj_ioIN5utils9null_taskEE9set_cycleEm
+                0x00000000000088f8       0xb7 release/main.o
+                0x00000000000088f8                __ZNK6device6trj_ioIN5utils9null_taskEE9set_cycleEm
+ .text._ZNK5utils4fifoIhLh16EE6lengthEv
+                0x00000000000089af       0x13 release/main.o
+                0x00000000000089af                __ZNK5utils4fifoIhLh16EE6lengthEv
+ .text._ZN5utils7commandILs64EE5crlf_Ev
+                0x00000000000089c2        0xf release/main.o
+                0x00000000000089c2                __ZN5utils7commandILs64EE5crlf_Ev
+ .text.startup  0x00000000000089d1      0x4d4 release/main.o
+                0x00000000000089d1                _main
+ .text          0x0000000000008ea5        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_memregs.o)
+ .text          0x0000000000008ea5       0x1b /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+                0x0000000000008ea5                m32c_jsri16
+ .text          0x0000000000008ec0      0x6e6 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+                0x0000000000008ec0                _udivmodsi4
+                0x0000000000008fbb                ___divsi3
+                0x0000000000009102                ___modsi3
+                0x0000000000009243                ___ffshi2
+                0x00000000000092b5                ___clzhi2
+                0x0000000000009329                ___ctzhi2
+                0x0000000000009399                ___popcounthi2
+                0x00000000000093b5                ___parityhi2
+                0x00000000000093d8                ___udivsi3
+                0x00000000000094b2                ___umodsi3
+                0x000000000000958b                ___clrsbhi2
+ .text          0x00000000000095a6        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+ .text          0x00000000000095a6        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .text          0x00000000000095a6        0x5 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+                0x00000000000095a6                ___errno
+ .text          0x00000000000095ab        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+ .text          0x00000000000095ab       0x39 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+                0x00000000000095ab                _strncmp
+ *(.text.*personality*)
+ *(.gnu.warning)
+ *(.interp .hash .dynsym .dynstr .gnu.version*)
+                [!provide]                        PROVIDE (__etext, .)
+                [!provide]                        PROVIDE (_etext, .)
+                [!provide]                        PROVIDE (etext, .)
+                0x00000000000095e4                . = ALIGN (0x2)
+
+.exttext
+ *(.exttext .stub .exttext.* .gnu.linkonce.t.*)
+ *(.exttext.*personality*)
+ *(.gnu.warning)
+ *(.interp .hash .dynsym .dynstr .gnu.version*)
+
+.rodata         0x00000000000095e4      0x26e
+                0x00000000000095e4                . = ALIGN (0x2)
+ *(.plt)
+ .plt           0x00000000000095e4        0x0 release/common/start.o
+ *(.init)
+ *(.fini)
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.str1.1
+                0x00000000000095e4       0x5e release/main.o
+ .rodata._ZZNK6device6trj_ioIN5utils9null_taskEE9set_freq_EmRtRhE4tbl_
+                0x0000000000009642        0x3 release/main.o
+                0x0000000000009642                __ZZNK6device6trj_ioIN5utils9null_taskEE9set_freq_EmRtRhE4tbl_
+ .rodata._ZZN6device6trb_ioIN5utils9null_taskEhE5startEmhNS_8trb_base6OUTPUTEE3tbl
+                0x0000000000009645        0x8 release/main.o
+                0x0000000000009645                __ZZN6device6trb_ioIN5utils9null_taskEhE5startEmhNS_8trb_base6OUTPUTEE3tbl
+ .rodata        0x000000000000964d      0x100 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+                0x000000000000964d                ___clz_tab
+ .rodata        0x000000000000974d      0x100 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+                0x000000000000974d                ___popcount_tab
+ .rodata        0x000000000000984d        0x2 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+                0x000000000000984d                __global_impure_ptr
+ .rodata.str1.1
+                0x000000000000984f        0x2 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+ *(.rodata1)
+ *(.eh_frame_hdr)
+ *(.eh_frame)
+ *(.gcc_except_table)
+ *(.gcc_except_table.*)
+                0x0000000000009852                . = ALIGN (0x2)
+ *fill*         0x0000000000009851        0x1 
+                [!provide]                        PROVIDE (__romdatastart, .)
+                0x0000000000009852                PROVIDE (__datainternal, ABSOLUTE (LOADADDR (.data)))
+
+.data           0x0000000000000300       0x82 load address 0x0000000000009852
+                0x0000000000000300                . = ALIGN (0x4)
+                0x0000000000000300                PROVIDE (__datastart, .)
+                0x0000000000000300                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array)
+                0x0000000000000300                PROVIDE (__preinit_array_end, .)
+                0x0000000000000300                PROVIDE (__init_array_start, .)
+ *(.init_array)
+ .init_array    0x0000000000000300        0x2 release/main.o
+                0x0000000000000302                PROVIDE (__init_array_end, .)
+                0x0000000000000302                PROVIDE (__fini_array_start, .)
+ *(.fini_array)
+                0x0000000000000302                PROVIDE (__fini_array_end, .)
+ *crtbegin*.o(.ctors)
+ *(EXCLUDE_FILE(*crtend*.o) .ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+ *crtbegin*.o(.dtors)
+ *(EXCLUDE_FILE(*crtend*.o) .dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+ *(.jcr)
+ *(.data.rel.ro.local)
+ *(.data.rel.ro*)
+ *(.dynamic)
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x0000000000000302        0x4 release/common/start.o
+                0x0000000000000302                ___dso_handle
+ .data          0x0000000000000306        0x0 release/common/vect.o
+ .data          0x0000000000000306        0x0 release/common/syscalls.o
+ .data          0x0000000000000306        0x0 release/common/init.o
+ .data          0x0000000000000306        0x0 release/main.o
+ .data._ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E11send_stall_E
+                0x0000000000000306        0x1 release/main.o
+                0x0000000000000306                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E11send_stall_E
+ .data          0x0000000000000307        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_memregs.o)
+ .data          0x0000000000000307        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+ .data          0x0000000000000307        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .data          0x0000000000000307        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+ .data          0x0000000000000307        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .data          0x0000000000000307        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+ .data          0x0000000000000307       0x7a /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+                0x0000000000000307                __impure_ptr
+ .data          0x0000000000000381        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+ *(.gnu.linkonce.d.*personality*)
+ *(.data1)
+ *(.got.plt)
+ *(.got)
+                [!provide]                        PROVIDE (__var_vect_start, .)
+ *(.var_vects)
+                0x0000000000000382                . = ALIGN (0x2)
+ *fill*         0x0000000000000381        0x1 
+                0x0000000000000382                _edata = .
+                [!provide]                        PROVIDE (edata, .)
+                0x0000000000000382                PROVIDE (__dataend, .)
+                [!provide]                        PROVIDE (__romdatacopysize, SIZEOF (.data))
+
+.bss            0x0000000000000382       0x98 load address 0x00000000000098d4
+                0x0000000000000382                . = ALIGN (0x2)
+                0x0000000000000382                PROVIDE (__bssstart, .)
+ *(.dynbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x0000000000000382        0x0 release/common/start.o
+ .bss           0x0000000000000382        0x0 release/common/vect.o
+ .bss           0x0000000000000382        0x0 release/common/syscalls.o
+ .bss           0x0000000000000382        0x0 release/common/init.o
+ .bss           0x0000000000000382       0x50 release/main.o
+ .bss._ZN6device6trj_ioIN5utils9null_taskEE4trj_E
+                0x00000000000003d2        0x2 release/main.o
+                0x00000000000003d2                __ZN6device6trj_ioIN5utils9null_taskEE4trj_E
+ .bss._ZN6device6trj_ioIN5utils9null_taskEE6trjmr_E
+                0x00000000000003d4        0x1 release/main.o
+                0x00000000000003d4                __ZN6device6trj_ioIN5utils9null_taskEE6trjmr_E
+ .bss._ZN6device6trb_ioIN5utils9null_taskEhE6count_E
+                0x00000000000003d5        0x1 release/main.o
+                0x00000000000003d5                __ZN6device6trb_ioIN5utils9null_taskEhE6count_E
+ .bss._ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
+                0x00000000000003d6        0x8 release/main.o
+                0x00000000000003d6                __ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
+ .bss._ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
+                0x00000000000003de        0x8 release/main.o
+                0x00000000000003de                __ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
+ .bss._ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
+                0x00000000000003e6       0x12 release/main.o
+                0x00000000000003e6                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
+ .bss._ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
+                0x00000000000003f8       0x12 release/main.o
+                0x00000000000003f8                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
+ .bss           0x000000000000040a       0x10 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_memregs.o)
+                0x000000000000040a                mem0
+                0x000000000000040b                mem1
+                0x000000000000040c                mem2
+                0x000000000000040d                mem3
+                0x000000000000040e                mem4
+                0x000000000000040f                mem5
+                0x0000000000000410                mem6
+                0x0000000000000411                mem7
+                0x0000000000000412                mem8
+                0x0000000000000413                mem9
+                0x0000000000000414                mem10
+                0x0000000000000415                mem11
+                0x0000000000000416                mem12
+                0x0000000000000417                mem13
+                0x0000000000000418                mem14
+                0x0000000000000419                mem15
+ .bss           0x000000000000041a        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+ .bss           0x000000000000041a        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .bss           0x000000000000041a        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+ .bss           0x000000000000041a        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .bss           0x000000000000041a        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+ .bss           0x000000000000041a        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+ .bss           0x000000000000041a        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+ *(COMMON)
+                0x000000000000041a                . = ALIGN (0x2)
+                0x000000000000041a                PROVIDE (__bssend, .)
+                0x000000000000041a                _end = .
+                [!provide]                        PROVIDE (end, .)
+                [!provide]                        PROVIDE (__bsssize, SIZEOF (.bss))
+
+.vvec           0x000000000000fed8       0x80
+ *(.vvec)
+ .vvec          0x000000000000fed8       0x80 release/common/vect.o
+                0x000000000000fed8                _variable_vectors_
+
+.fvec           0x000000000000ffd8       0x28
+ *(.fvec)
+ .fvec          0x000000000000ffd8       0x28 release/common/vect.o
+                0x000000000000ffd8                _fixed_vectors_
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x0000000000000000       0x11
+ *(.comment)
+ .comment       0x0000000000000000       0x11 release/common/vect.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 release/common/syscalls.o
+ .comment       0x0000000000000011       0x12 release/common/init.o
+ .comment       0x0000000000000011       0x12 release/main.o
+ .comment       0x0000000000000011       0x12 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .comment       0x0000000000000011       0x12 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+ .comment       0x0000000000000011       0x12 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .comment       0x0000000000000011       0x12 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+ .comment       0x0000000000000011       0x12 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+ .comment       0x0000000000000011       0x12 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x0000000000000000       0xc8
+ *(.debug_aranges)
+ .debug_aranges
+                0x0000000000000000       0x20 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+ .debug_aranges
+                0x0000000000000020       0x20 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .debug_aranges
+                0x0000000000000040       0x18 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+ .debug_aranges
+                0x0000000000000058       0x18 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .debug_aranges
+                0x0000000000000070       0x20 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+ .debug_aranges
+                0x0000000000000090       0x18 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+ .debug_aranges
+                0x00000000000000a8       0x20 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x0000000000000000     0x2355
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x0000000000000000       0x8f /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+ .debug_info    0x000000000000008f      0x5df /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .debug_info    0x000000000000066e      0x14a /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+ .debug_info    0x00000000000007b8      0x14a /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .debug_info    0x0000000000000902      0x8d2 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+ .debug_info    0x00000000000011d4      0x8ab /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+ .debug_info    0x0000000000001a7f      0x8d6 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+
+.debug_abbrev   0x0000000000000000      0x707
+ *(.debug_abbrev)
+ .debug_abbrev  0x0000000000000000       0x14 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+ .debug_abbrev  0x0000000000000014      0x1ed /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .debug_abbrev  0x0000000000000201       0x9b /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+ .debug_abbrev  0x000000000000029c       0x9b /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .debug_abbrev  0x0000000000000337      0x151 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+ .debug_abbrev  0x0000000000000488      0x135 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+ .debug_abbrev  0x00000000000005bd      0x14a /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+
+.debug_line     0x0000000000000000      0x752
+ *(.debug_line)
+ .debug_line    0x0000000000000000       0x73 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+ .debug_line    0x0000000000000073      0x268 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .debug_line    0x00000000000002db       0x9c /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+ .debug_line    0x0000000000000377       0x9c /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .debug_line    0x0000000000000413      0x103 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+ .debug_line    0x0000000000000516       0xe9 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+ .debug_line    0x00000000000005ff      0x153 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+
+.debug_frame    0x0000000000000000      0x16c
+ *(.debug_frame)
+ .debug_frame   0x0000000000000000      0x118 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .debug_frame   0x0000000000000118       0x24 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+ .debug_frame   0x000000000000013c       0x30 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+
+.debug_str      0x0000000000000000      0x833
+ *(.debug_str)
+ .debug_str     0x0000000000000000      0x266 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+                                        0x2b9 (size before relaxing)
+ .debug_str     0x0000000000000266       0x1a /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_clz.o)
+                                        0x1dd (size before relaxing)
+ .debug_str     0x0000000000000280      0x1dd /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(_popcount_tab.o)
+ .debug_str     0x0000000000000280      0x4a7 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-errno.o)
+                                        0x565 (size before relaxing)
+ .debug_str     0x0000000000000727       0x83 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-impure.o)
+                                        0x553 (size before relaxing)
+ .debug_str     0x00000000000007aa       0x89 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+                                        0x559 (size before relaxing)
+
+.debug_loc      0x0000000000000000      0xa77
+ *(.debug_loc)
+ .debug_loc     0x0000000000000000      0xa1c /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)
+ .debug_loc     0x0000000000000a1c       0x5b /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libc.a(lib_a-strncmp.o)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+/DISCARD/
+ *(.note.GNU-stack)
+OUTPUT(pluse_out_sample.elf elf32-m32c)
+
+.debug_ranges   0x0000000000000000      0x148
+ .debug_ranges  0x0000000000000000      0x148 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(lib2funcs.o)

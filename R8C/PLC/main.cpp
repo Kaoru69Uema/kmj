@@ -142,10 +142,11 @@ int main(int argc, char *argv[])
 	SCKCR &= 0x60;          // CPU ：クロック システムクロックの分周なし
 	PRCR.PRC0 = 0;          // プロテクト
 	asm("FSET I");          // 割り込み許可
+
 	// タイマーBの設定
 	{
 		uint8_t intr_level = 1;
-		uint16_t freq = 1000-1; // 1000Hz
+		uint16_t freq = 1000-1; // 1000Hz // hirakuni45/r8c では−１しないと1000Hzにならない？ 
 		timer_b_.start(freq, intr_level);
 	}
 
