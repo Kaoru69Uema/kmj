@@ -115,13 +115,13 @@ namespace {
 	uint8_t inp_pos_ = 0;
 	uint8_t inp_neg_ = 0;
 
-//	void input_service_()
-//	{
-//		uint8_t lvl = X0::P() << 0|X1::P() << 1|X2::P() << 2|X3::P() << 3|X4::P() << 4|X5::P() << 5|X6::P() << 6|X7::P() << 7;
-//		inp_pos_ = ~inp_lvl_ &  lvl; /// 立ち上がりエッジ検出
-//		inp_neg_ =  inp_lvl_ & ~lvl; /// 立ち下がりエッジ検出
-//		inp_lvl_ =  lvl;             /// 状態の保存
-//	}
+	void input_service_()
+	{
+		uint8_t lvl = X0::P() << 0|X1::P() << 1|X2::P() << 2|X3::P() << 3|X4::P() << 4|X5::P() << 5|X6::P() << 6|X7::P() << 7;
+		inp_pos_ = ~inp_lvl_ &  lvl; /// 立ち上がりエッジ検出
+		inp_neg_ =  inp_lvl_ & ~lvl; /// 立ち下がりエッジ検出
+		inp_lvl_ =  lvl;             /// 状態の保存
+	}
 }
 int main(int argc, char *argv[])
 {
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
 	PRCR.PRC0 = 1;          // プロテクト解除
 	OCOCR.LOCODIS = 0;      // 低速オンチップオシレータ発信
 	EXCKCR.CKPT   = 1;      // 外部クロック(XIN)入力, I/Oポート選択(P4_7)
-	for( volatile uint8_t i= 0; i<2040; ++i ) ; // 発振安定待ち
+	                        // すでに外部クロックは発信中なので発振安定待ちはしない
 	SCKCR.HSCKSEL = 0;      // 高速クロック(XIN)選択
 	PHISEL = 0;             // システム基準クロックの分周なし
 	CKSTPR.SCKSEL = 1;      // 高速クロック選択
@@ -191,87 +191,87 @@ int main(int argc, char *argv[])
 	uint8_t cnt = 0;
 	while(1) {
 		timer_b_.sync();
-		//input_service_();
+		input_service_();
 
-//		if( ( inp_pos_ & 0b00001 ) != 0 ) {     // 押した
-//			sci_puts( "X0 - positive\n" );
-//			Y0::P = 1;
-//		}
-//
-//		if( ( inp_pos_ & 0b00010 ) != 0 ) {     // 押した
-//			sci_puts( "X1 - positive\n" );
-//			Y1::P = 1;
-//		}
-//
-//		if( ( inp_pos_ & 0b00100 ) != 0 ) {     // 押した
-//			sci_puts( "X2 - positive\n" );
-//			Y2::P = 1;
-//		}
-//
-//		if( ( inp_pos_ & 0b01000 ) != 0 ) {     // 押した
-//			sci_puts( "X3 - positive\n" );
-//			Y3::P = 1;
-//		}
-//
-//		if( ( inp_pos_ & 0b10000 ) != 0 ) {     // 押した
-//			sci_puts( "X4 - positive\n" );
-//			Y4::P = 1;
-//		}
-//
-//		if( ( inp_pos_ & 0b00100000 ) != 0 ) {     // 押した
-//			sci_puts( "X5 - positive\n" );
-//			Y4::P = 1;
-//		}
-//
-//		if( ( inp_pos_ & 0b01000000 ) != 0 ) {     // 押した
-//			sci_puts( "X6 - positive\n" );
-//			Y4::P = 1;
-//		}
-//
-//		if( ( inp_pos_ & 0b10000000 ) != 0 ) {     // 押した
-//			sci_puts( "X7 - positive\n" );
-//			Y4::P = 1;
-//		}
-//
-//		if( ( inp_neg_ & 0b00001 ) != 0 ) {     // 離した
-//			sci_puts( "X0 - negative\n" );
-//			Y0::P = 0;
-//		}
-//
-//		if( ( inp_neg_ & 0b00010 ) != 0 ) {     // 離した
-//			sci_puts( "X1 - negative\n" );
-//			Y1::P = 0;
-//		}
-//
-//		if( ( inp_neg_ & 0b00100 ) != 0 ) {     // 離した
-//			sci_puts( "X2 - negative\n" );
-//			Y2::P = 0;
-//		}
-//
-//		if( ( inp_neg_ & 0b01000 ) != 0 ) {     // 離した
-//			sci_puts( "X3 - negative\n" );
-//			Y3::P = 0;
-//		}
-//
-//		if( ( inp_neg_ & 0b10000 ) != 0 ) {     // 離した
-//			sci_puts( "X4 - negative\n" );
-//			Y4::P = 0;
-//		}
-//
-//		if( ( inp_neg_ & 0b100000 ) != 0 ) {     // 離した
-//			sci_puts( "X5 - negative\n" );
-//			Y4::P = 0;
-//		}
-//
-//		if( ( inp_neg_ & 0b1000000 ) != 0 ) {     // 離した
-//			sci_puts( "X6 - negative\n" );
-//			Y4::P = 0;
-//		}
-//
-//		if( ( inp_neg_ & 0b10000000 ) != 0 ) {     // 離した
-//			sci_puts( "X7 - negative\n" );
-//			Y4::P = 0;
-//		}
+		if( ( inp_pos_ & 0b00001 ) != 0 ) {     // 押した
+			sci_puts( "X0 - positive\n" );
+			Y0::P = 1;
+		}
+
+		if( ( inp_pos_ & 0b00010 ) != 0 ) {     // 押した
+			sci_puts( "X1 - positive\n" );
+			Y1::P = 1;
+		}
+
+		if( ( inp_pos_ & 0b00100 ) != 0 ) {     // 押した
+			sci_puts( "X2 - positive\n" );
+			Y2::P = 1;
+		}
+
+		if( ( inp_pos_ & 0b01000 ) != 0 ) {     // 押した
+			sci_puts( "X3 - positive\n" );
+			Y3::P = 1;
+		}
+
+		if( ( inp_pos_ & 0b10000 ) != 0 ) {     // 押した
+			sci_puts( "X4 - positive\n" );
+			Y4::P = 1;
+		}
+
+		if( ( inp_pos_ & 0b00100000 ) != 0 ) {     // 押した
+			sci_puts( "X5 - positive\n" );
+			Y4::P = 1;
+		}
+
+		if( ( inp_pos_ & 0b01000000 ) != 0 ) {     // 押した
+			sci_puts( "X6 - positive\n" );
+			Y4::P = 1;
+		}
+
+		if( ( inp_pos_ & 0b10000000 ) != 0 ) {     // 押した
+			sci_puts( "X7 - positive\n" );
+			Y4::P = 1;
+		}
+
+		if( ( inp_neg_ & 0b00001 ) != 0 ) {     // 離した
+			sci_puts( "X0 - negative\n" );
+			Y0::P = 0;
+		}
+
+		if( ( inp_neg_ & 0b00010 ) != 0 ) {     // 離した
+			sci_puts( "X1 - negative\n" );
+			Y1::P = 0;
+		}
+
+		if( ( inp_neg_ & 0b00100 ) != 0 ) {     // 離した
+			sci_puts( "X2 - negative\n" );
+			Y2::P = 0;
+		}
+
+		if( ( inp_neg_ & 0b01000 ) != 0 ) {     // 離した
+			sci_puts( "X3 - negative\n" );
+			Y3::P = 0;
+		}
+
+		if( ( inp_neg_ & 0b10000 ) != 0 ) {     // 離した
+			sci_puts( "X4 - negative\n" );
+			Y4::P = 0;
+		}
+
+		if( ( inp_neg_ & 0b100000 ) != 0 ) {     // 離した
+			sci_puts( "X5 - negative\n" );
+			Y4::P = 0;
+		}
+
+		if( ( inp_neg_ & 0b1000000 ) != 0 ) {     // 離した
+			sci_puts( "X6 - negative\n" );
+			Y4::P = 0;
+		}
+
+		if( ( inp_neg_ & 0b10000000 ) != 0 ) {     // 離した
+			sci_puts( "X7 - negative\n" );
+			Y4::P = 0;
+		}
 
 		if( cnt % 2 )
 			Y0::P=1; 

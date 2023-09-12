@@ -42,7 +42,7 @@ LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libm32c
                 0x00000000000007c0                _usp_init = 0x7c0
                 0x0000000000000800                _isp_init = 0x800
 
-.text           0x0000000000008000      0x84a
+.text           0x0000000000008000      0xbda
  *(.text .stub .text.* .gnu.linkonce.t.*)
  .text          0x0000000000008000       0x1b release/common/start.o
                 0x0000000000008000                _start
@@ -74,24 +74,25 @@ LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libm32c
                 0x00000000000086cf                _sci_puts
                 0x000000000000872c                _sci_length
                 0x0000000000008731                _sci_getch
- .text.startup  0x000000000000878a       0x4d release/main.o
-                0x000000000000878a                _main
  .text._ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5irecvEv
-                0x00000000000087d7       0x45 release/main.o
-                0x00000000000087d7                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5irecvEv
+                0x000000000000878a       0x45 release/main.o
+                0x000000000000878a                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5irecvEv
  .text._ZNK5utils4fifoIhLh16EE6lengthEv
-                0x000000000000881c       0x13 release/main.o
-                0x000000000000881c                __ZNK5utils4fifoIhLh16EE6lengthEv
- .text          0x000000000000882f        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_memregs.o)
- .text          0x000000000000882f       0x1b /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
-                0x000000000000882f                m32c_jsri16
+                0x00000000000087cf       0x13 release/main.o
+                0x00000000000087cf                __ZNK5utils4fifoIhLh16EE6lengthEv
+ .text.startup  0x00000000000087e2      0x3dc release/main.o
+                0x00000000000087e2                _main
+ .text          0x0000000000008bbe        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_memregs.o)
+ .text          0x0000000000008bbe       0x1b /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+                0x0000000000008bbe                m32c_jsri16
  *(.text.*personality*)
  *(.gnu.warning)
  *(.interp .hash .dynsym .dynstr .gnu.version*)
                 [!provide]                        PROVIDE (__etext, .)
                 [!provide]                        PROVIDE (_etext, .)
                 [!provide]                        PROVIDE (etext, .)
-                0x000000000000884a                . = ALIGN (0x2)
+                0x0000000000008bda                . = ALIGN (0x2)
+ *fill*         0x0000000000008bd9        0x1 00000000
 
 .exttext
  *(.exttext .stub .exttext.* .gnu.linkonce.t.*)
@@ -99,23 +100,25 @@ LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libm32c
  *(.gnu.warning)
  *(.interp .hash .dynsym .dynstr .gnu.version*)
 
-.rodata         0x000000000000884a        0x0
-                0x000000000000884a                . = ALIGN (0x2)
+.rodata         0x0000000000008bda      0x114
+                0x0000000000008bda                . = ALIGN (0x2)
  *(.plt)
- .plt           0x000000000000884a        0x0 release/common/start.o
+ .plt           0x0000000000008bda        0x0 release/common/start.o
  *(.init)
  *(.fini)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.str1.1
+                0x0000000000008bda      0x114 release/main.o
  *(.rodata1)
  *(.eh_frame_hdr)
  *(.eh_frame)
  *(.gcc_except_table)
  *(.gcc_except_table.*)
-                0x000000000000884a                . = ALIGN (0x2)
+                0x0000000000008cee                . = ALIGN (0x2)
                 [!provide]                        PROVIDE (__romdatastart, .)
-                0x000000000000884a                PROVIDE (__datainternal, ABSOLUTE (LOADADDR (.data)))
+                0x0000000000008cee                PROVIDE (__datainternal, ABSOLUTE (LOADADDR (.data)))
 
-.data           0x0000000000000300        0x8 load address 0x000000000000884a
+.data           0x0000000000000300        0x8 load address 0x0000000000008cee
                 0x0000000000000300                . = ALIGN (0x4)
                 0x0000000000000300                PROVIDE (__datastart, .)
                 0x0000000000000300                PROVIDE (__preinit_array_start, .)
@@ -164,7 +167,7 @@ LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libm32c
                 0x0000000000000308                PROVIDE (__dataend, .)
                 [!provide]                        PROVIDE (__romdatacopysize, SIZEOF (.data))
 
-.bss            0x0000000000000308       0x4a load address 0x0000000000008852
+.bss            0x0000000000000308       0x4e load address 0x0000000000008cf6
                 0x0000000000000308                . = ALIGN (0x2)
                 0x0000000000000308                PROVIDE (__bssstart, .)
  *(.dynbss)
@@ -172,42 +175,41 @@ LOAD /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/../../../../m32c-elf/lib/libm32c
  .bss           0x0000000000000308        0x0 release/common/start.o
  .bss           0x0000000000000308        0x0 release/common/vect.o
  .bss           0x0000000000000308        0x0 release/common/init.o
- .bss           0x0000000000000308        0x5 release/main.o
+ .bss           0x0000000000000308        0xa release/main.o
  .bss._ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
-                0x000000000000030d        0x8 release/main.o
-                0x000000000000030d                __ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
+                0x0000000000000312        0x8 release/main.o
+                0x0000000000000312                __ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
  .bss._ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
-                0x0000000000000315        0x8 release/main.o
-                0x0000000000000315                __ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
+                0x000000000000031a        0x8 release/main.o
+                0x000000000000031a                __ZGVN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
  .bss._ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
-                0x000000000000031d       0x12 release/main.o
-                0x000000000000031d                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
+                0x0000000000000322       0x12 release/main.o
+                0x0000000000000322                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5send_E
  .bss._ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
-                0x000000000000032f       0x12 release/main.o
-                0x000000000000032f                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
- .bss           0x0000000000000341       0x10 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_memregs.o)
-                0x0000000000000341                mem0
-                0x0000000000000342                mem1
-                0x0000000000000343                mem2
-                0x0000000000000344                mem3
-                0x0000000000000345                mem4
-                0x0000000000000346                mem5
-                0x0000000000000347                mem6
-                0x0000000000000348                mem7
-                0x0000000000000349                mem8
-                0x000000000000034a                mem9
-                0x000000000000034b                mem10
-                0x000000000000034c                mem11
-                0x000000000000034d                mem12
-                0x000000000000034e                mem13
-                0x000000000000034f                mem14
-                0x0000000000000350                mem15
- .bss           0x0000000000000351        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
+                0x0000000000000334       0x12 release/main.o
+                0x0000000000000334                __ZN6device7uart_ioINS_4uartILt128EEEN5utils4fifoIhLh16EEES5_E5recv_E
+ .bss           0x0000000000000346       0x10 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_memregs.o)
+                0x0000000000000346                mem0
+                0x0000000000000347                mem1
+                0x0000000000000348                mem2
+                0x0000000000000349                mem3
+                0x000000000000034a                mem4
+                0x000000000000034b                mem5
+                0x000000000000034c                mem6
+                0x000000000000034d                mem7
+                0x000000000000034e                mem8
+                0x000000000000034f                mem9
+                0x0000000000000350                mem10
+                0x0000000000000351                mem11
+                0x0000000000000352                mem12
+                0x0000000000000353                mem13
+                0x0000000000000354                mem14
+                0x0000000000000355                mem15
+ .bss           0x0000000000000356        0x0 /usr/local/m32c-elf/lib/gcc/m32c-elf/6.4.0/libgcc.a(__m32c_jsri16.o)
  *(COMMON)
-                0x0000000000000352                . = ALIGN (0x2)
- *fill*         0x0000000000000351        0x1 
-                0x0000000000000352                PROVIDE (__bssend, .)
-                0x0000000000000352                _end = .
+                0x0000000000000356                . = ALIGN (0x2)
+                0x0000000000000356                PROVIDE (__bssend, .)
+                0x0000000000000356                _end = .
                 [!provide]                        PROVIDE (end, .)
                 [!provide]                        PROVIDE (__bsssize, SIZEOF (.bss))
 
